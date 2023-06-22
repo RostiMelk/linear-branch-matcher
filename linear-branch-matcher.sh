@@ -24,13 +24,20 @@ function setLinearTitleAsPS1() {
             -X POST \
             -H "Content-Type: application/json" \
             -H "Authorization: $linearApiKey" \
-            --data '{ "query": "{ issue(id: \"'$formattedBranch'\") { id title } }" }' \
+            --data '{ "query": "{ issue(id: \"'$formattedBranch'\") { title url } }" }' \
             https://api.linear.app/graphql)
 
         local linearTitle=$(echo "$response" | jq -r '.data.issue.title')
-        echo "$linearTitle"
-    }
+        local linearUrl=$(echo "$response" | jq -r '.data.issue.url')
 
+        if [ -z "$linearTitle" ] || [ -z "$linearUrl" ]; then
+            return
+        fi
+
+        # Create hyperlink
+        local hyperlink='\e]8;;'"$linearUrl"'\e\\'"$linearTitle"'\e]8;;\e\\'
+        echo "$hyperlink"
+    }
 
     function getLinearIdFromBranchName() {
         local branch=$1
@@ -47,25 +54,37 @@ function setLinearTitleAsPS1() {
     fi
 
     if ! isGitRepo; then
+        # Unset linearTitle and restore original PS1
+        unset linearTitle
+        export PS1="$originalPS1"
         return
     fi
 
     local branch=$(getCurrentBranch)
     if [ -z "$branch" ]; then
+        # Unset linearTitle and restore original PS1
+        unset linearTitle
+        export PS1="$originalPS1"
         return
     fi
 
-    local linearTitle=$(matchBranchtoLinear "$branch")
-    if [ -z "$linearTitle" ]; then
+    local linearHyperlink=$(matchBranchtoLinear "$branch")
+    if [ -z "$linearHyperlink" ]; then
+        # Unset linearTitle and restore original PS1
+        unset linearTitle
+        export PS1="$originalPS1"
         return
     fi
 
     purple=$(tput setaf 171)
     reset=$(tput sgr0)
-    export PS1="$PS1${purple}\"$linearTitle\"${reset} "
+
+    export PS1="$originalPS1${purple}$linearHyperlink${reset} "
 }
 
-# Function to update prompt when directory changes
+originalPS1=$PS1
+
+# Function to update prompt when branch changes
 function updatePrompt() {
     setLinearTitleAsPS1
 }
@@ -73,5 +92,6 @@ function updatePrompt() {
 # Set the initial prompt
 setLinearTitleAsPS1
 
-# Set the updatePrompt function as the chpwd hook
-chpwd_functions+=(updatePrompt)
+# Set the updatePrompt function as the precmd hook
+precmd_functions+=(updatePrompt)
+
