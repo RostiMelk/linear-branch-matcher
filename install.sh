@@ -44,15 +44,28 @@ echo "Setting up the Linear Branch Matcher script..."
 url="https://raw.githubusercontent.com/RostiMelk/linear-branch-matcher/master/linear-branch-matcher.sh"
 mkdir -p ~/.linear-branch-matcher
 curl -s "$url" > ~/.linear-branch-matcher/linear-branch-matcher.sh
+echo "Checking for old version"
 
 # Add the script to the shell
 if [[ "$SHELL" == *"bash"* ]]; then
+  if grep -q "linear-branch-matcher.sh" ~/.bashrc; then
+    echo "Removing old version..."
+    sed -i '/linear-branch-matcher.sh/d' ~/.bashrc
+  fi
   echo "Adding the script to the bash shell..."
   echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.bashrc
 elif [[ "$SHELL" == *"fish"* ]]; then
+  if grep -q "linear-branch-matcher.sh" ~/.config/fish/config.fish; then
+    echo "Removing old version..."
+    sed -i '/linear-branch-matcher.sh/d' ~/.config/fish/config.fish
+  fi
   echo "Adding the script to the fish shell..."
   echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.config/fish/config.fish
 elif [[ "$SHELL" == *"zsh"* ]]; then
+  if grep -q "linear-branch-matcher.sh" ~/.zshrc; then
+    echo "Removing old version..."
+    sed -i '/linear-branch-matcher.sh/d' ~/.zshrc
+  fi
   echo "Adding the script to the zsh shell..."
   echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.zshrc
 fi

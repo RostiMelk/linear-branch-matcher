@@ -30,16 +30,18 @@ function setLinearTitleAsPS1() {
         local linearTitle=$(echo "$response" | jq -r '.data.issue.title')
         local linearUrl=$(echo "$response" | jq -r '.data.issue.url')
 
-        if [ "$linearTitle" = "null" ] || [ "$linearUrl" = "null" ]; then
-            return
-        fi
-
         if [ -z "$linearTitle" ] || [ -z "$linearUrl" ]; then
             return
         fi
 
+        if [ "$linearTitle" = "null" ] || [ "$linearUrl" = "null" ]; then
+            return
+        fi
+    
         # Create hyperlink
-        local hyperlink='\e]8;;'"$linearUrl"'\e\\'"$linearTitle"'\e]8;;\e\\'
+        # local hyperlink='\e]8;;'"$linearUrl"'\e\\'"$linearTitle"'\e]8;;\e\\'
+        # For some reason invisible characters are added to the prompt when using the above, using plain text for now
+        local hyperlink="$linearTitle"
         echo "$hyperlink"
     }
 
