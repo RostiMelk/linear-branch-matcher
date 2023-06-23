@@ -94,4 +94,3 @@ setLinearTitleAsPS1
 
 # Set the updatePrompt function as the precmd hook
 precmd_functions+=(updatePrompt)
-
