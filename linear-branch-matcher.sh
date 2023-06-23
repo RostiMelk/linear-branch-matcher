@@ -30,6 +30,10 @@ function setLinearTitleAsPS1() {
         local linearTitle=$(echo "$response" | jq -r '.data.issue.title')
         local linearUrl=$(echo "$response" | jq -r '.data.issue.url')
 
+        if [ "$linearTitle" = "null" ] || [ "$linearUrl" = "null" ]; then
+            return
+        fi
+
         if [ -z "$linearTitle" ] || [ -z "$linearUrl" ]; then
             return
         fi
