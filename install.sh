@@ -48,26 +48,26 @@ echo "Checking for old version"
 
 # Add the script to the shell
 if [[ "$SHELL" == *"bash"* ]]; then
-  if grep -q "linear-branch-matcher.sh" ~/.bashrc; then
-    echo "Removing old version..."
-    sed -i '/linear-branch-matcher.sh/d' ~/.bashrc
+  if  grep -q "linear-branch-matcher.sh" ~/.bashrc; then
+    echo "Script already in bashrc"
+  else
+    echo "Adding the script to the bash shell..."
+    echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.bashrc
   fi
-  echo "Adding the script to the bash shell..."
-  echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.bashrc
 elif [[ "$SHELL" == *"fish"* ]]; then
   if grep -q "linear-branch-matcher.sh" ~/.config/fish/config.fish; then
-    echo "Removing old version..."
-    sed -i '/linear-branch-matcher.sh/d' ~/.config/fish/config.fish
+    echo "Script already in fish config"
+  else
+    echo "Adding the script to the fish shell..."
+    echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.config/fish/config.fish
   fi
-  echo "Adding the script to the fish shell..."
-  echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.config/fish/config.fish
 elif [[ "$SHELL" == *"zsh"* ]]; then
   if grep -q "linear-branch-matcher.sh" ~/.zshrc; then
-    echo "Removing old version..."
-    sed -i '/linear-branch-matcher.sh/d' ~/.zshrc
+    echo "Script already in zshrc"
+  else
+    echo "Adding the script to the zsh shell..."
+    echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.zshrc
   fi
-  echo "Adding the script to the zsh shell..."
-  echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.zshrc
 fi
 
 # Export the Linear API key
