@@ -1,5 +1,9 @@
 # Linear branch matcher
 
+Display the linear issue that matches the current branch name in the terminal, if any.
+
+![Screenshot](https://github.com/RostiMelk/linear-branch-matcher/assets/25268506/7c133e85-7546-4528-8503-001abba93c8b)
+
 ## Installation
 
 ### Add api key
