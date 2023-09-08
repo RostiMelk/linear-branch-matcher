@@ -52,21 +52,21 @@ if [[ "$SHELL" == *"bash"* ]]; then
     echo "Script already in bashrc"
   else
     echo "Adding the script to the bash shell..."
-    echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.bashrc
+    echo -e "\nsource ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.bashrc
   fi
 elif [[ "$SHELL" == *"fish"* ]]; then
   if grep -q "linear-branch-matcher.sh" ~/.config/fish/config.fish; then
     echo "Script already in fish config"
   else
     echo "Adding the script to the fish shell..."
-    echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.config/fish/config.fish
+    echo "\nsource ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.config/fish/config.fish
   fi
 elif [[ "$SHELL" == *"zsh"* ]]; then
   if grep -q "linear-branch-matcher.sh" ~/.zshrc; then
     echo "Script already in zshrc"
   else
     echo "Adding the script to the zsh shell..."
-    echo "source ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.zshrc
+    echo "\nsource ~/.linear-branch-matcher/linear-branch-matcher.sh" >> ~/.zshrc
   fi
 fi
 
