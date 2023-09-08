@@ -47,7 +47,7 @@ function setLinearTitleAsPS1() {
 
     function getLinearIdFromBranchName() {
         local branch=$1
-        local pattern="\b[A-Za-z]{3}-[0-9]+\b"
+        local pattern="\b[A-Za-z]{3,4}-[0-9]+\b"
         local matches=$(echo "$branch" | grep -oE "$pattern")
         echo "$matches"
     }
