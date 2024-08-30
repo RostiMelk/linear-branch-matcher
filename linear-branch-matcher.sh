@@ -37,7 +37,7 @@ function setLinearTitleAsPS1() {
         if [ "$linearTitle" = "null" ] || [ "$linearUrl" = "null" ]; then
             return
         fi
-    
+
         # Create hyperlink
         # local hyperlink='\e]8;;'"$linearUrl"'\e\\'"$linearTitle"'\e]8;;\e\\'
         # For some reason invisible characters are added to the prompt when using the above, using plain text for now
@@ -74,12 +74,21 @@ function setLinearTitleAsPS1() {
         return
     fi
 
-    local linearHyperlink=$(matchBranchtoLinear "$branch")
-    if [ -z "$linearHyperlink" ]; then
-        # Unset linearTitle and restore original PS1
-        unset linearTitle
-        export PS1="$originalPS1"
-        return
+    # Check if the branch has changed
+    if [ "$branch" != "$lastBranch" ]; then
+        local linearHyperlink=$(matchBranchtoLinear "$branch")
+        if [ -z "$linearHyperlink" ]; then
+            # Unset linearTitle and restore original PS1
+            unset linearTitle
+            export PS1="$originalPS1"
+            return
+        fi
+        # Cache the result
+        cachedLinearHyperlink="$linearHyperlink"
+        lastBranch="$branch"
+    else
+        # Use cached result
+        linearHyperlink="$cachedLinearHyperlink"
     fi
 
     purple=$(tput setaf 171)
@@ -89,6 +98,8 @@ function setLinearTitleAsPS1() {
 }
 
 originalPS1=$PS1
+lastBranch=""
+cachedLinearHyperlink=""
 
 # Function to update prompt when branch changes
 function updatePrompt() {
