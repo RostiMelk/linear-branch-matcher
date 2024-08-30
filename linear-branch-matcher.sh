@@ -27,7 +27,7 @@ function setLinearTitleAsPS1() {
             --data '{ "query": "{ issue(id: \"'$formattedBranch'\") { title url } }" }' \
             https://api.linear.app/graphql)
 
-        local linearTitle=$(echo "$response" | jq -r '.data.issue.title')
+        local linearTitle=$(echo "$response" | jq -r '.data.issue.title' | sed 's/`//g')
         local linearUrl=$(echo "$response" | jq -r '.data.issue.url')
 
         if [ -z "$linearTitle" ] || [ -z "$linearUrl" ]; then
