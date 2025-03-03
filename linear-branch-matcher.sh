@@ -106,6 +106,11 @@ function updatePrompt() {
     setLinearTitleAsPS1
 }
 
+# For zsh, we should use precmd hook properly
+precmd() {
+    setLinearTitleAsPS1
+}
+
 # Set the initial prompt
 setLinearTitleAsPS1
 
